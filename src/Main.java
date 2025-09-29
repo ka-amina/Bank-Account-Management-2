@@ -1,24 +1,22 @@
 import config.DatabaseConfig;
 
-import java.sql.*;
+import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            DatabaseConfig dbConfig = DatabaseConfig.getInstance();
-            Connection conn = dbConfig.getConnection();
+        Scanner sc = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("====================================================================");
+            System.out.println("=                         Bank Management Menu                     =");
+            System.out.println("====================================================================");
+            System.out.println("=       1. login                                                   =");
+            System.out.println("=       2. exit                                                    =");
+            System.out.println("====================================================================");
+            System.out.println("=        enter your choice: ");
+            choice=sc.nextInt();
 
-            if (conn != null && !conn.isClosed()) {
-                System.out.println("Connected");
-
-
-                dbConfig.disconect();
-
-                System.out.println(" Disconnected.");
-            }
-
-        } catch (Exception e) {
-            System.out.println(" Error: " + e.getMessage());
-        }
+        } while (choice != 0);
     }
 }
