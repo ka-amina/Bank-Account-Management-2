@@ -6,7 +6,7 @@ import enums.UserRole;
 import java.util.Scanner;
 
 public class BankManagementMenu {
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
     public void showMenu(User user) {
         int choice;
@@ -21,8 +21,8 @@ public class BankManagementMenu {
             System.out.println("=       0. Logout                                                 =");
             System.out.println("====================================================================");
             System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
-            scanner.nextLine();
+            choice = sc.nextInt();
+            sc.nextLine();
 
         } while (choice != 0);
     }

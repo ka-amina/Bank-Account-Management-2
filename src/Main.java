@@ -1,7 +1,6 @@
-import config.DatabaseConfig;
+import controllers.LoginController;
 import entities.User;
 import views.BankManagementMenu;
-import views.Login;
 
 import java.util.Scanner;
 
@@ -9,7 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Login loginView = new Login();
+        LoginController loginView = new LoginController();
         BankManagementMenu bankMenu = new BankManagementMenu();
 
         int choice;

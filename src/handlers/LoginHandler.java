@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class LoginHandler {
-    private AuthService authService;
+    private final AuthService authService;
     Scanner sc = new Scanner(System.in);
 
     public LoginHandler() {
@@ -28,7 +28,7 @@ public class LoginHandler {
         Optional<User> userOptional = authService.login(email, password);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            System.out.println("Login successfully welcom," + user.getName());
+            System.out.println("Login successfully welcome," + user.getName());
             return user;
         } else {
             System.out.println("Invalid email or password. Please try again.");

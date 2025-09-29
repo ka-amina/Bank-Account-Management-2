@@ -1,12 +1,12 @@
-package views;
+package controllers;
 
 import entities.User;
 import handlers.LoginHandler;
 
-public class Login {
-    private LoginHandler loginHandler;
+public class LoginController {
+    private final LoginHandler loginHandler;
 
-    public Login() {
+    public LoginController() {
         this.loginHandler = new LoginHandler();
     }
 
