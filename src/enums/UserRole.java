@@ -1,6 +1,6 @@
 package enums;
 
-public enum Role {
+public enum UserRole {
     TELLER,
     MANAGER,
     ADMIN,

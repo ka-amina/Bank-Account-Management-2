@@ -1,17 +1,16 @@
 package entities;
 
-import enums.Role;
+import enums.UserRole;
 
-import java.util.UUID;
 
 public class User {
-    private UUID id;
+    private int id;
     private String name;
     private String email;
     private String password;
-    private Role role;
+    private UserRole role;
 
-    public User(UUID id, String name, String email, String password, Role role) {
+    public User(int id, String name, String email, String password, UserRole role) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -19,7 +18,7 @@ public class User {
         this.role = role;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
@@ -31,11 +30,15 @@ public class User {
         return email;
     }
 
-    public Role getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setId(UUID id) {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 
