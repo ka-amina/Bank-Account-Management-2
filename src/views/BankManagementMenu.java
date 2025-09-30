@@ -42,7 +42,8 @@ public class BankManagementMenu {
                 break;
             case TELLER:
                 System.out.println("=       1. Create client                                      =");
-                System.out.println("=       2. Create Account                                      =");
+                System.out.println("=       2. Create Account                                     =");
+                System.out.println("=       3. List My Accounts                                   =");
                 break;
             case AUDITOR:
                 System.out.println("logged in as an Auditor");
@@ -88,6 +89,9 @@ public class BankManagementMenu {
                 break;
             case 2:
                 accountController.createAccount(user);
+                break;
+            case 3:
+                accountController.listMyAccounts(user);
                 break;
             default:
                 System.out.println("invalid option , please try again. ");

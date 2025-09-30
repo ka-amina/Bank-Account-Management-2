@@ -10,4 +10,8 @@ public class AccountController {
     public Account createAccount(User user) {
         return handler.createAccount(user);
     }
+
+    public void listMyAccounts(User user) {
+        handler.listMyAccounts(user);
+    }
 }

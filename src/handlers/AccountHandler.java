@@ -7,6 +7,7 @@ import services.AccountService;
 import services.ClientService;
 import utils.AccountNumberGenerator;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class AccountHandler {
@@ -39,10 +40,10 @@ public class AccountHandler {
                 break;
             default:
                 type = AccountType.CURRENT;
-                break; // 1 or anything else
+                break;
         }
 
-        String accountNumber = AccountNumberGenerator.next(); // 10-digit String
+        String accountNumber = AccountNumberGenerator.next();
 
         Account account = accountService.createAccount(accountNumber, type, clientId, teller.getId());
         if (account != null) {
@@ -51,5 +52,21 @@ public class AccountHandler {
             System.out.println("Failed to create account.");
         }
         return account;
+    }
+
+    public void listMyAccounts(User user) {
+        List<Account> accounts = accountService.getAccountsByCreator(user.getId());
+        if (accounts.isEmpty()) {
+            System.out.println("You have not created any accounts yet.");
+            return;
+        }
+        System.out.println("--- Accounts you created ---");
+        accounts.forEach(a ->
+                System.out.printf("Number: %s | Type: %s | Balance: %.2f | Active: %s%n",
+                        a.getAccountNumber(),
+                        a.getType(),
+                        a.getBalance(),
+                        a.isActive() ? "Yes" : "No")
+        );
     }
 }

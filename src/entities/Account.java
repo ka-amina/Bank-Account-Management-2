@@ -22,6 +22,10 @@ public class Account {
         this.balance = BigDecimal.ZERO;
     }
 
+    public Account(){
+
+    }
+
     public UUID getAccountId() {
         return accountId;
     }
