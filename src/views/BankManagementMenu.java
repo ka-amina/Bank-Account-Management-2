@@ -3,6 +3,7 @@ package views;
 import controllers.AccountController;
 import controllers.ClientController;
 import controllers.PasswordController;
+import controllers.ProfileController;
 import entities.User;
 import enums.UserRole;
 
@@ -13,6 +14,7 @@ public class BankManagementMenu {
     private final ClientController clientController = new ClientController();
     private final AccountController accountController = new AccountController();
     private final PasswordController passwordController = new PasswordController();
+    private final ProfileController profileController = new ProfileController();
 
     public void showMenu(User user) {
         int choice;
@@ -24,8 +26,9 @@ public class BankManagementMenu {
 
             showRoleBasedMenu(user.getRole());
 
-            System.out.println("=       9. change password                                        =");
-            System.out.println("=       0. Logout                                                 =");
+            System.out.println("=       8. update profile                                          =");
+            System.out.println("=       9. change password                                         =");
+            System.out.println("=       0. Logout                                                  =");
             System.out.println("====================================================================");
             System.out.print("Enter your choice: ");
             choice = sc.nextInt();
@@ -44,10 +47,10 @@ public class BankManagementMenu {
                 System.out.println("logged in as an Manager");
                 break;
             case TELLER:
-                System.out.println("=       1. Create client                                      =");
-                System.out.println("=       2. Create Account                                     =");
-                System.out.println("=       3. List My Accounts                                   =");
-                System.out.println("=       4. close Account                                   =");
+                System.out.println("=       1. Create client                                           =");
+                System.out.println("=       2. Create Account                                          =");
+                System.out.println("=       3. List My Accounts                                        =");
+                System.out.println("=       4. close Account                                           =");
                 break;
             case AUDITOR:
                 System.out.println("logged in as an Auditor");
@@ -58,6 +61,10 @@ public class BankManagementMenu {
     private void handleMenuChoice(int choice, User user) {
         if (choice == 0) {
             System.out.println("Logging out. Goodbye, " + user.getName() + "!");
+            return;
+        }
+        if (choice == 8) {
+            profileController.updateProfile(user);
             return;
         }
         if (choice == 9) {

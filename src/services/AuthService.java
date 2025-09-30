@@ -31,4 +31,8 @@ public class AuthService {
                 .map(u -> userRepository.updatePassword(userId, newPassword))
                 .orElse(false);
     }
+
+    public boolean updateProfile(int userId, String newName, String newEmail) {
+        return userRepository.updateProfile(userId, newName, newEmail);
+    }
 }
