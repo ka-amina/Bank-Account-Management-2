@@ -22,4 +22,8 @@ public class AccountService {
     public List<Account> getAccountsByCreator(int userId) {
         return accoutRepository.findByCreatedBy(userId);
     }
+
+    public boolean closeAccount(String accountNumber, int createdBy) {
+        return accoutRepository.deactivate(accountNumber, createdBy);
+    }
 }

@@ -69,4 +69,16 @@ public class AccountHandler {
                         a.isActive() ? "Yes" : "No")
         );
     }
+
+    public void closeAccount(User user) {
+        System.out.print("Account number to close: ");
+        String number = sc.nextLine().trim();
+
+        boolean ok = accountService.closeAccount(number, user.getId());
+        if (ok) {
+            System.out.println("Account " + number + " closed successfully.");
+        } else {
+            System.out.println("Could not close account (not found or not yours).");
+        }
+    }
 }

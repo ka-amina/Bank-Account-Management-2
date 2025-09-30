@@ -14,4 +14,8 @@ public class AccountController {
     public void listMyAccounts(User user) {
         handler.listMyAccounts(user);
     }
+
+    public void closeAccount(User user) {
+        handler.closeAccount(user);
+    }
 }

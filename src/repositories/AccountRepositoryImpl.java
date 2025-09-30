@@ -45,11 +45,7 @@ public class AccountRepositoryImpl implements AccoutRepository {
 
     @Override
     public List<Account> findByCreatedBy(int userId) {
-        String query = """
-                SELECT *
-                FROM accounts
-                WHERE created_by = ?
-                """;
+        String query = " select * from accounts where created_by = ? ";
         List<Account> list = new ArrayList<>();
         try (PreparedStatement statment = connection.prepareStatement(query)) {
             statment.setInt(1, userId);
@@ -69,5 +65,18 @@ public class AccountRepositoryImpl implements AccoutRepository {
             System.out.println("Error listing accounts: " + e.getMessage());
         }
         return list;
+    }
+
+    @Override
+    public boolean deactivate(String accountNumber, int createdBy) {
+        String sql = " update accounts set isActive = false where account_number = ? and created_by = ? and isActive = true ";
+        try (PreparedStatement statment = connection.prepareStatement(sql)) {
+            statment.setString(1, accountNumber);
+            statment.setInt(2, createdBy);
+            return statment.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.out.println("Error closing account: " + e.getMessage());
+        }
+        return false;
     }
 }
