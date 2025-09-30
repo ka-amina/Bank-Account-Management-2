@@ -15,4 +15,22 @@ INSERT INTO users (name, email, password, role) VALUES
 ('Bob Teller', 'bob.teller@bank.com', 'teller123', 'TELLER'),
 ('Sarah Auditor', 'auditor@bank.com', 'auditor123', 'AUDITOR');
 
+-- create table clients
+create table clients(
+                        id uuid primary key,
+                        first_name varchar(225) not null,
+                        last_name varchar(225) not null,
+                        cin varchar(50) unique not null,
+                        phone_number varchar(50),
+                        address text,
+                        email varchar(225) unique,
+                        created_by int references users(id)
+
+)
+
+-- generate id
+ALTER TABLE clients
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+
+
 
