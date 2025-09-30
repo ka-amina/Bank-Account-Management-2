@@ -14,7 +14,7 @@ public class ClientHandler {
         this.clientService = new ClientService();
     }
 
-    public void createClient(User loggedInUser) {
+    public Client createClient(User loggedInUser) {
         System.out.println("====================================================================");
         System.out.println("=                     Create New Client                            =");
         System.out.println("====================================================================");
@@ -59,5 +59,6 @@ public class ClientHandler {
         } else {
             System.out.println("Error: Failed to create client. Please check if CIN or email already exists.");
         }
+        return client;
     }
 }

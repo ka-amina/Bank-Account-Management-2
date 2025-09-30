@@ -4,6 +4,7 @@ import config.DatabaseConfig;
 import entities.Client;
 
 import java.sql.*;
+import java.util.Optional;
 import java.util.UUID;
 
 public class ClientRepositoryImpl implements ClientRepository  {
@@ -40,5 +41,20 @@ public class ClientRepositoryImpl implements ClientRepository  {
         }
         return false;
 
+    }
+
+    @Override
+    public Optional<UUID> findIdByCin(String cin) {
+        String query = "SELECT id FROM clients WHERE cin = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, cin);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return Optional.of((UUID) rs.getObject("id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding client by CIN: " + e.getMessage());
+        }
+        return Optional.empty();
     }
 }

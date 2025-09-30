@@ -1,14 +1,16 @@
 package views;
 
+import controllers.AccountController;
+import controllers.ClientController;
 import entities.User;
 import enums.UserRole;
-import handlers.ClientHandler;
 
 import java.util.Scanner;
 
 public class BankManagementMenu {
     private final Scanner sc = new Scanner(System.in);
-    private final ClientHandler clientHandler= new ClientHandler();
+    private final ClientController clientController = new ClientController();
+    private final AccountController accountController = new AccountController();
 
     public void showMenu(User user) {
         int choice;
@@ -25,7 +27,7 @@ public class BankManagementMenu {
             System.out.print("Enter your choice: ");
             choice = sc.nextInt();
             sc.nextLine();
-            handleMenuChoice(choice,user);
+            handleMenuChoice(choice, user);
 
         } while (choice != 0);
     }
@@ -40,7 +42,7 @@ public class BankManagementMenu {
                 break;
             case TELLER:
                 System.out.println("=       1. Create client                                      =");
-                System.out.println("=       1. Create Account                                      =");
+                System.out.println("=       2. Create Account                                      =");
                 break;
             case AUDITOR:
                 System.out.println("logged in as an Auditor");
@@ -61,7 +63,7 @@ public class BankManagementMenu {
                 handleManagerChoice(choice);
                 break;
             case TELLER:
-                handleTellerChoice(choice,user);
+                handleTellerChoice(choice, user);
                 break;
             case AUDITOR:
                 handleAuditorChoice(choice);
@@ -72,20 +74,20 @@ public class BankManagementMenu {
 
     }
 
-    private void handleAdminChoice(int choice){
+    private void handleAdminChoice(int choice) {
     }
 
-    private void handleManagerChoice(int choice){
+    private void handleManagerChoice(int choice) {
 
     }
 
-    private void handleTellerChoice(int choice, User user){
-        switch(choice){
+    private void handleTellerChoice(int choice, User user) {
+        switch (choice) {
             case 1:
-                clientHandler.createClient(user);
+                clientController.createClient(user);
                 break;
             case 2:
-                System.out.println("create new account  ");
+                accountController.createAccount(user);
                 break;
             default:
                 System.out.println("invalid option , please try again. ");
@@ -93,7 +95,7 @@ public class BankManagementMenu {
         }
     }
 
-    private void handleAuditorChoice(int choice){
+    private void handleAuditorChoice(int choice) {
 
     }
 }

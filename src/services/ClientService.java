@@ -21,4 +21,8 @@ public class ClientService {
         return null;
     }
 
+    public UUID findClientIdByCin(String cin) {
+        return clientRepository.findIdByCin(cin).orElse(null);
+    }
+
 }
