@@ -1,0 +1,6 @@
+package enums;
+
+public enum TransactionType {
+    DEPOSIT, WITHDRAW, TRANSFER_IN, TRANSFER_OUT,
+    TRANSFER_EXTERNAL, FEE, FEEINCOME
+}

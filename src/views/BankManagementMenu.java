@@ -1,9 +1,6 @@
 package views;
 
-import controllers.AccountController;
-import controllers.ClientController;
-import controllers.PasswordController;
-import controllers.ProfileController;
+import controllers.*;
 import entities.User;
 import enums.UserRole;
 
@@ -15,6 +12,7 @@ public class BankManagementMenu {
     private final AccountController accountController = new AccountController();
     private final PasswordController passwordController = new PasswordController();
     private final ProfileController profileController = new ProfileController();
+    private final TransactionController transactionController = new TransactionController();
 
     public void showMenu(User user) {
         int choice;
@@ -51,6 +49,7 @@ public class BankManagementMenu {
                 System.out.println("=       2. Create Account                                          =");
                 System.out.println("=       3. List My Accounts                                        =");
                 System.out.println("=       4. close Account                                           =");
+                System.out.println("=       5. Desposit                                                =");
                 break;
             case AUDITOR:
                 System.out.println("logged in as an Auditor");
@@ -110,6 +109,9 @@ public class BankManagementMenu {
                 break;
             case 4:
                 accountController.closeAccount(user);
+                break;
+            case 5:
+                transactionController.deposit(user);
                 break;
             default:
                 System.out.println("invalid option , please try again. ");

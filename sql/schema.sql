@@ -49,5 +49,24 @@ create table accounts
     created_by     int references users (id)
 )
 
+CREATE TYPE transaction_type_enum AS ENUM (
+    'DEPOSIT',
+    'WITHDRAW',
+    'TRANSFER_IN',
+    'TRANSFER_OUT',
+    'TRANSFER_EXTERNAL',
+    'FEE',
+    'FEEINCOME'
+    );
+create table transactions
+(
+    id                  uuid primary key default gen_random_uuid(),
+    amount              numeric(15, 2)        not null,
+    type                transaction_type_enum NOT NULL,
+    timestamp           TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    sender_account_id   UUID REFERENCES accounts (id),
+    receiver_account_id UUID REFERENCES accounts (id)
+)
+
 
 

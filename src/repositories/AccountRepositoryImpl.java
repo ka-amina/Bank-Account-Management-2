@@ -4,10 +4,12 @@ import config.DatabaseConfig;
 import entities.Account;
 import enums.AccountType;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class AccountRepositoryImpl implements AccoutRepository {
@@ -76,6 +78,35 @@ public class AccountRepositoryImpl implements AccoutRepository {
             return statment.executeUpdate() == 1;
         } catch (SQLException e) {
             System.out.println("Error closing account: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public Optional<UUID> findIdByNumber(String accountNumber) {
+        String query = "select id from accounts where account_number = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, accountNumber);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                return Optional.of((UUID) result.getObject("id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding account by number: " + e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean deposit(String accountNumber, BigDecimal amount, int createdBy) {
+        String sql = "update accounts set balance = balance + ?  where account_number = ? and created_by = ? and isActive = true ";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setBigDecimal(1, amount);
+            statement.setString(2, accountNumber);
+            statement.setInt(3, createdBy);
+            return statement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.out.println("Error depositing: " + e.getMessage());
         }
         return false;
     }
