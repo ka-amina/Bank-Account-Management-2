@@ -22,9 +22,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<User> findByEmail(String email) {
         String query = "select * from users where email =? ";
-        try(PreparedStatement statement= connection.prepareStatement(query)){
-            statement.setString(1,email);
-            ResultSet result=statement.executeQuery();
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, email);
+            ResultSet result = statement.executeQuery();
             if (result.next()) {
                 int id = Integer.parseInt(result.getString("id"));
                 String name = result.getString("name");
@@ -34,8 +34,43 @@ public class UserRepositoryImpl implements UserRepository {
                 return Optional.of(user);
             }
         } catch (SQLException e) {
-            System.out.println("error fetching user: "+ e.getMessage());
+            System.out.println("error fetching user: " + e.getMessage());
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> findById(int id) {
+        String query = "select * from users where id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                User user = new User(
+                        result.getInt("id"),
+                        result.getString("name"),
+                        result.getString("email"),
+                        result.getString("password"),
+                        UserRole.valueOf(result.getString("role"))
+                );
+                return Optional.of(user);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding user by id: " + e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean updatePassword(int userId, String newPassword) {
+        String query = "update users set password = ? where id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, newPassword);
+            statement.setInt(2, userId);
+            return statement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.out.println("Error updating password: " + e.getMessage());
+        }
+        return false;
     }
 }

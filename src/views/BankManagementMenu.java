@@ -2,6 +2,7 @@ package views;
 
 import controllers.AccountController;
 import controllers.ClientController;
+import controllers.PasswordController;
 import entities.User;
 import enums.UserRole;
 
@@ -11,6 +12,7 @@ public class BankManagementMenu {
     private final Scanner sc = new Scanner(System.in);
     private final ClientController clientController = new ClientController();
     private final AccountController accountController = new AccountController();
+    private final PasswordController passwordController = new PasswordController();
 
     public void showMenu(User user) {
         int choice;
@@ -22,6 +24,7 @@ public class BankManagementMenu {
 
             showRoleBasedMenu(user.getRole());
 
+            System.out.println("=       9. change password                                        =");
             System.out.println("=       0. Logout                                                 =");
             System.out.println("====================================================================");
             System.out.print("Enter your choice: ");
@@ -55,6 +58,10 @@ public class BankManagementMenu {
     private void handleMenuChoice(int choice, User user) {
         if (choice == 0) {
             System.out.println("Logging out. Goodbye, " + user.getName() + "!");
+            return;
+        }
+        if (choice == 9) {
+            passwordController.changePassword(user);
             return;
         }
         switch (user.getRole()) {
