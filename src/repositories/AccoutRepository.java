@@ -17,4 +17,6 @@ public interface AccoutRepository {
     boolean deposit(String accountNumber, BigDecimal amount, int createdBy);
 
     Optional<UUID> findIdByNumber(String accountNumber);
+
+    boolean withdraw(String accountNumber, BigDecimal amount, int createdBy);
 }

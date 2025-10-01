@@ -9,4 +9,8 @@ public class TransactionController {
     public void deposit(User user) {
         transactionHandler.deposit(user);
     }
+
+    public void withdraw(User user) {
+        transactionHandler.withdraw(user);
+    }
 }

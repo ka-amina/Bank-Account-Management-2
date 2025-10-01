@@ -49,7 +49,8 @@ public class BankManagementMenu {
                 System.out.println("=       2. Create Account                                          =");
                 System.out.println("=       3. List My Accounts                                        =");
                 System.out.println("=       4. close Account                                           =");
-                System.out.println("=       5. Desposit                                                =");
+                System.out.println("=       5. Deposit                                                 =");
+                System.out.println("=       6. Withdraw                                                =");
                 break;
             case AUDITOR:
                 System.out.println("logged in as an Auditor");
@@ -112,6 +113,9 @@ public class BankManagementMenu {
                 break;
             case 5:
                 transactionController.deposit(user);
+                break;
+            case 6:
+                transactionController.withdraw(user);
                 break;
             default:
                 System.out.println("invalid option , please try again. ");

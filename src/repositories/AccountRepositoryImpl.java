@@ -110,4 +110,19 @@ public class AccountRepositoryImpl implements AccoutRepository {
         }
         return false;
     }
+
+    @Override
+    public boolean withdraw(String accountNumber, BigDecimal amount, int createdBy) {
+        String sql = " update accounts set balance = balance - ? where account_number = ? and created_by = ? and isActive = true and balance >= ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setBigDecimal(1, amount);
+            ps.setString(2, accountNumber);
+            ps.setInt(3, createdBy);
+            ps.setBigDecimal(4, amount);
+            return ps.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.out.println("Error withdrawing: " + e.getMessage());
+        }
+        return false;
+    }
 }

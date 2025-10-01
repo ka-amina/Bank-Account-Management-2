@@ -41,4 +41,15 @@ public class AccountService {
                 accountId);
         return transactionService.add(transaction);
     }
+
+    public boolean withdraw(String accountNumber, BigDecimal amount, int tellerId) {
+        // 1. update balance
+        boolean withdraw = accoutRepository.withdraw(accountNumber, amount, tellerId);
+        if (!withdraw) return false;
+
+        // 2. record transaction
+        UUID accountId = accoutRepository.findIdByNumber(accountNumber).orElse(null);
+        Transaction tx = new Transaction(amount, TransactionType.WITHDRAW, accountId, null);
+        return withdraw;
+    }
 }

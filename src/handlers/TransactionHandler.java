@@ -2,6 +2,7 @@ package handlers;
 
 import entities.User;
 import services.AccountService;
+
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -28,6 +29,28 @@ public class TransactionHandler {
             System.out.println("Deposit successful.");
         } else {
             System.out.println("Deposit failed (account not found, not yours, or inactive).");
+        }
+    }
+
+    public void withdraw(User teller) {
+        System.out.print("Account number to withdraw from: ");
+        String number = sc.nextLine().trim();
+
+        System.out.print("Amount to withdraw: ");
+        BigDecimal amount;
+        try {
+            amount = new BigDecimal(sc.nextLine().trim());
+            if (amount.compareTo(BigDecimal.ZERO) <= 0) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            System.out.println("Amount must be a positive number.");
+            return;
+        }
+
+        boolean ok = accountService.withdraw(number, amount, teller.getId());
+        if (ok) {
+            System.out.println("Withdrawal successful.");
+        } else {
+            System.out.println("Withdrawal failed (account not found, not yours, inactive, or insufficient balance).");
         }
     }
 }
