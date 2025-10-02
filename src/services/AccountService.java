@@ -23,16 +23,16 @@ public class AccountService {
         return null;
     }
 
-    public List<Account> getAccountsByCreator(int userId) {
-        return accoutRepository.findByCreatedBy(userId);
+    public List<Account> getAccounts() {
+        return accoutRepository.findAll();
     }
 
-    public boolean closeAccount(String accountNumber, int createdBy) {
-        return accoutRepository.deactivate(accountNumber, createdBy);
+    public boolean closeAccount(String accountNumber) {
+        return accoutRepository.deactivate(accountNumber);
     }
 
-    public boolean deposit(String accountNumber, BigDecimal amount, int tellerId) {
-        boolean desposit = accoutRepository.deposit(accountNumber, amount, tellerId);
+    public boolean deposit(String accountNumber, BigDecimal amount) {
+        boolean desposit = accoutRepository.deposit(accountNumber, amount);
         if (!desposit) return false;
 
         UUID accountId = accoutRepository.findIdByNumber(accountNumber).orElse(null);
@@ -42,9 +42,9 @@ public class AccountService {
         return transactionService.add(transaction);
     }
 
-    public boolean withdraw(String accountNumber, BigDecimal amount, int tellerId) {
+    public boolean withdraw(String accountNumber, BigDecimal amount) {
         // 1. update balance
-        boolean withdraw = accoutRepository.withdraw(accountNumber, amount, tellerId);
+        boolean withdraw = accoutRepository.withdraw(accountNumber, amount);
         if (!withdraw) return false;
 
         // 2. record transaction

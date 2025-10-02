@@ -106,16 +106,16 @@ public class BankManagementMenu {
                 accountController.createAccount(user);
                 break;
             case 3:
-                accountController.listMyAccounts(user);
+                accountController.listMyAccounts();
                 break;
             case 4:
-                accountController.closeAccount(user);
+                accountController.closeAccount();
                 break;
             case 5:
-                transactionController.deposit(user);
+                transactionController.deposit();
                 break;
             case 6:
-                transactionController.withdraw(user);
+                transactionController.withdraw();
                 break;
             default:
                 System.out.println("invalid option , please try again. ");

@@ -54,8 +54,8 @@ public class AccountHandler {
         return account;
     }
 
-    public void listMyAccounts(User user) {
-        List<Account> accounts = accountService.getAccountsByCreator(user.getId());
+    public void listMyAccounts() {
+        List<Account> accounts = accountService.getAccounts();
         if (accounts.isEmpty()) {
             System.out.println("You have not created any accounts yet.");
             return;
@@ -70,12 +70,12 @@ public class AccountHandler {
         );
     }
 
-    public void closeAccount(User user) {
+    public void closeAccount() {
         System.out.print("Account number to close: ");
         String number = sc.nextLine().trim();
 
-        boolean ok = accountService.closeAccount(number, user.getId());
-        if (ok) {
+        boolean close = accountService.closeAccount(number);
+        if (close) {
             System.out.println("Account " + number + " closed successfully.");
         } else {
             System.out.println("Could not close account (not found or not yours).");

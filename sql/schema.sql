@@ -67,6 +67,3 @@ create table transactions
     sender_account_id   UUID REFERENCES accounts (id),
     receiver_account_id UUID REFERENCES accounts (id)
 )
-
-
-

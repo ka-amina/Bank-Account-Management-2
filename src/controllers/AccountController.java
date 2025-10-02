@@ -11,11 +11,11 @@ public class AccountController {
         return handler.createAccount(user);
     }
 
-    public void listMyAccounts(User user) {
-        handler.listMyAccounts(user);
+    public void listMyAccounts() {
+        handler.listMyAccounts();
     }
 
-    public void closeAccount(User user) {
-        handler.closeAccount(user);
+    public void closeAccount() {
+        handler.closeAccount();
     }
 }

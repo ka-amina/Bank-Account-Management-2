@@ -10,13 +10,13 @@ import java.util.UUID;
 public interface AccoutRepository {
     boolean createAccount(Account account);
 
-    List<Account> findByCreatedBy(int userId);
+    List<Account> findAll();
 
-    boolean deactivate(String accountNumber, int createdBy);
+    boolean deactivate(String accountNumber);
 
-    boolean deposit(String accountNumber, BigDecimal amount, int createdBy);
+    boolean deposit(String accountNumber, BigDecimal amount);
 
     Optional<UUID> findIdByNumber(String accountNumber);
 
-    boolean withdraw(String accountNumber, BigDecimal amount, int createdBy);
+    boolean withdraw(String accountNumber, BigDecimal amount);
 }

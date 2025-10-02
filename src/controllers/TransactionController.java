@@ -6,11 +6,11 @@ import handlers.TransactionHandler;
 public class TransactionController {
     private final TransactionHandler transactionHandler = new TransactionHandler();
 
-    public void deposit(User user) {
-        transactionHandler.deposit(user);
+    public void deposit() {
+        transactionHandler.deposit();
     }
 
-    public void withdraw(User user) {
-        transactionHandler.withdraw(user);
+    public void withdraw() {
+        transactionHandler.withdraw();
     }
 }

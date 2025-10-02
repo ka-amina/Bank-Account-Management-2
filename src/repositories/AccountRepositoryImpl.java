@@ -46,11 +46,10 @@ public class AccountRepositoryImpl implements AccoutRepository {
     }
 
     @Override
-    public List<Account> findByCreatedBy(int userId) {
-        String query = " select * from accounts where created_by = ? ";
+    public List<Account> findAll() {
+        String query = " select * from accounts";
         List<Account> list = new ArrayList<>();
         try (PreparedStatement statment = connection.prepareStatement(query)) {
-            statment.setInt(1, userId);
             ResultSet result = statment.executeQuery();
             while (result.next()) {
                 Account a = new Account();
@@ -70,11 +69,10 @@ public class AccountRepositoryImpl implements AccoutRepository {
     }
 
     @Override
-    public boolean deactivate(String accountNumber, int createdBy) {
-        String sql = " update accounts set isActive = false where account_number = ? and created_by = ? and isActive = true ";
+    public boolean deactivate(String accountNumber) {
+        String sql = " update accounts set isActive = false where account_number = ? and isActive = true ";
         try (PreparedStatement statment = connection.prepareStatement(sql)) {
             statment.setString(1, accountNumber);
-            statment.setInt(2, createdBy);
             return statment.executeUpdate() == 1;
         } catch (SQLException e) {
             System.out.println("Error closing account: " + e.getMessage());
@@ -98,12 +96,11 @@ public class AccountRepositoryImpl implements AccoutRepository {
     }
 
     @Override
-    public boolean deposit(String accountNumber, BigDecimal amount, int createdBy) {
-        String sql = "update accounts set balance = balance + ?  where account_number = ? and created_by = ? and isActive = true ";
+    public boolean deposit(String accountNumber, BigDecimal amount) {
+        String sql = "update accounts set balance = balance + ?  where account_number = ? and isActive = true ";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setBigDecimal(1, amount);
             statement.setString(2, accountNumber);
-            statement.setInt(3, createdBy);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             System.out.println("Error depositing: " + e.getMessage());
@@ -112,13 +109,12 @@ public class AccountRepositoryImpl implements AccoutRepository {
     }
 
     @Override
-    public boolean withdraw(String accountNumber, BigDecimal amount, int createdBy) {
-        String sql = " update accounts set balance = balance - ? where account_number = ? and created_by = ? and isActive = true and balance >= ?";
+    public boolean withdraw(String accountNumber, BigDecimal amount) {
+        String sql = " update accounts set balance = balance - ? where account_number = ? and isActive = true and balance >= ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setBigDecimal(1, amount);
             ps.setString(2, accountNumber);
-            ps.setInt(3, createdBy);
-            ps.setBigDecimal(4, amount);
+            ps.setBigDecimal(3, amount);
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {
             System.out.println("Error withdrawing: " + e.getMessage());

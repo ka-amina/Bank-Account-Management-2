@@ -1,6 +1,5 @@
 package handlers;
 
-import entities.User;
 import services.AccountService;
 
 import java.math.BigDecimal;
@@ -10,7 +9,7 @@ public class TransactionHandler {
     private final Scanner sc = new Scanner(System.in);
     private final AccountService accountService = new AccountService();
 
-    public void deposit(User teller) {
+    public void deposit() {
         System.out.print("Account number to deposit into: ");
         String number = sc.nextLine().trim();
 
@@ -24,7 +23,7 @@ public class TransactionHandler {
             return;
         }
 
-        boolean ok = accountService.deposit(number, amount, teller.getId());
+        boolean ok = accountService.deposit(number, amount);
         if (ok) {
             System.out.println("Deposit successful.");
         } else {
@@ -32,7 +31,7 @@ public class TransactionHandler {
         }
     }
 
-    public void withdraw(User teller) {
+    public void withdraw() {
         System.out.print("Account number to withdraw from: ");
         String number = sc.nextLine().trim();
 
@@ -46,7 +45,7 @@ public class TransactionHandler {
             return;
         }
 
-        boolean ok = accountService.withdraw(number, amount, teller.getId());
+        boolean ok = accountService.withdraw(number, amount);
         if (ok) {
             System.out.println("Withdrawal successful.");
         } else {
