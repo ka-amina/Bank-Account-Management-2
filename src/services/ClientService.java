@@ -4,6 +4,8 @@ import entities.Client;
 import repositories.ClientRepository;
 import repositories.ClientRepositoryImpl;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class ClientService {
@@ -25,4 +27,11 @@ public class ClientService {
         return clientRepository.findIdByCin(cin).orElse(null);
     }
 
+    public Optional<UUID> getClientIdByUserId(int userId) {
+        return clientRepository.findClientIdByUserId(userId);
+    }
+
+    public List<Client> getAllClients() {
+        return clientRepository.findAll();
+    }
 }

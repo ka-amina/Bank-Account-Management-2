@@ -6,7 +6,6 @@ import enums.AccountType;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -120,5 +119,75 @@ public class AccountRepositoryImpl implements AccoutRepository {
             System.out.println("Error withdrawing: " + e.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public Optional<Account> findByNumber(String accountNumber) {
+        String query = "SELECT * FROM accounts WHERE account_number = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, accountNumber);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Account a = new Account();
+                a.setAccountId((UUID) rs.getObject("id"));
+                a.setAccountNumber(rs.getString("account_number"));
+                a.setType(AccountType.valueOf(rs.getString("type")));
+                a.setBalance(rs.getBigDecimal("balance"));
+                a.setActive(rs.getBoolean("isActive"));
+                a.setClientId((UUID) rs.getObject("client_id"));
+                a.setCreatedBy(rs.getInt("created_by"));
+                return Optional.of(a);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding account: " + e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Account> findById(UUID accountId) {
+        String query = "SELECT * FROM accounts WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setObject(1, accountId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Account a = new Account();
+                a.setAccountId((UUID) rs.getObject("id"));
+                a.setAccountNumber(rs.getString("account_number"));
+                a.setType(AccountType.valueOf(rs.getString("type")));
+                a.setBalance(rs.getBigDecimal("balance"));
+                a.setActive(rs.getBoolean("isActive"));
+                a.setClientId((UUID) rs.getObject("client_id"));
+                a.setCreatedBy(rs.getInt("created_by"));
+                return Optional.of(a);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding account by ID: " + e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Account> findByClientId(UUID clientId) {
+        String query = "SELECT * FROM accounts WHERE client_id = ? AND isActive = true";
+        List<Account> accounts = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setObject(1, clientId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Account a = new Account();
+                a.setAccountId((UUID) rs.getObject("id"));
+                a.setAccountNumber(rs.getString("account_number"));
+                a.setType(AccountType.valueOf(rs.getString("type")));
+                a.setBalance(rs.getBigDecimal("balance"));
+                a.setActive(rs.getBoolean("isActive"));
+                a.setClientId((UUID) rs.getObject("client_id"));
+                a.setCreatedBy(rs.getInt("created_by"));
+                accounts.add(a);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding accounts by client ID: " + e.getMessage());
+        }
+        return accounts;
     }
 }
