@@ -11,9 +11,8 @@
 4||10|c|G
 4||10|C|G
 4||10|T|G</Grants>
-      <IntrospectionStateNumber>1045</IntrospectionStateNumber>
       <ServerVersion>17.5</ServerVersion>
-      <StartupTime>1758876985</StartupTime>
+      <StartupTime>1759429895</StartupTime>
       <TimeZones>true ACDT
 true ACSST
 false ACST
@@ -809,7 +808,6 @@ false Zulu
 14751||10|C|G
 14751||-9223372036854775808|U|G
 14751||10|U|G</Grants>
-      <IntrospectionStateNumber>1045</IntrospectionStateNumber>
       <ObjectId>17596</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4253,9 +4251,6 @@ false Zulu
       <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <LastIntrospectionL1Xid>1045</LastIntrospectionL1Xid>
-      <LastIntrospectionL2Xid>1045</LastIntrospectionL2Xid>
-      <LastIntrospectionL3Xid>1045</LastIntrospectionL3Xid>
       <LastIntrospectionLevel>3</LastIntrospectionLevel>
       <LastIntrospectionLocalTimestamp>2025-09-29.10:31:09</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
@@ -4273,7 +4268,20 @@ CREDIT</Labels>
       <SubKind>enum</SubKind>
       <OwnerName>postgres</OwnerName>
     </object-type>
-    <object-type id="271" parent="269" name="transaction_status_enum">
+    <object-type id="271" parent="269" name="credit_status">
+      <DetailsLevel>2</DetailsLevel>
+      <Labels>PENDING
+ACTIVE
+LATE
+CLOSED
+REJECTED</Labels>
+      <ObjectId>17731</ObjectId>
+      <StateNumber>1106</StateNumber>
+      <SubCategory>enum</SubCategory>
+      <SubKind>enum</SubKind>
+      <OwnerName>postgres</OwnerName>
+    </object-type>
+    <object-type id="272" parent="269" name="transaction_status_enum">
       <DetailsLevel>2</DetailsLevel>
       <Labels>PENDING
 SETTLED
@@ -4284,7 +4292,7 @@ FAILED</Labels>
       <SubKind>enum</SubKind>
       <OwnerName>postgres</OwnerName>
     </object-type>
-    <object-type id="272" parent="269" name="transaction_type_enum">
+    <object-type id="273" parent="269" name="transaction_type_enum">
       <DetailsLevel>2</DetailsLevel>
       <Labels>DEPOSIT
 WITHDRAW
@@ -4299,7 +4307,7 @@ FEEINCOME</Labels>
       <SubKind>enum</SubKind>
       <OwnerName>postgres</OwnerName>
     </object-type>
-    <object-type id="273" parent="269" name="user_role">
+    <object-type id="274" parent="269" name="user_role">
       <DetailsLevel>2</DetailsLevel>
       <Labels>TELLER
 MANAGER
@@ -4311,7 +4319,7 @@ AUDITOR</Labels>
       <SubKind>enum</SubKind>
       <OwnerName>postgres</OwnerName>
     </object-type>
-    <sequence id="274" parent="269" name="users_id_seq">
+    <sequence id="275" parent="269" name="users_id_seq">
       <DetailsLevel>2</DetailsLevel>
       <ObjectId>17607</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4320,35 +4328,42 @@ AUDITOR</Labels>
       <StoredType>integer|0s</StoredType>
       <OwnerName>postgres</OwnerName>
     </sequence>
-    <table id="275" parent="269" name="accounts">
+    <table id="276" parent="269" name="accounts">
       <DetailsLevel>2</DetailsLevel>
       <ObjectId>17668</ObjectId>
       <StateNumber>1063</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="276" parent="269" name="clients">
+    <table id="277" parent="269" name="clients">
       <DetailsLevel>2</DetailsLevel>
       <ObjectId>17636</ObjectId>
       <StateNumber>1050</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="277" parent="269" name="transactions">
+    <table id="278" parent="269" name="credits">
       <DetailsLevel>2</DetailsLevel>
-      <ObjectId>17711</ObjectId>
-      <StateNumber>1073</StateNumber>
+      <ObjectId>17741</ObjectId>
+      <StateNumber>1107</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="278" parent="269" name="users">
+    <table id="279" parent="269" name="transactions">
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>17711</ObjectId>
+      <StateNumber>1084</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="280" parent="269" name="users">
       <DetailsLevel>2</DetailsLevel>
       <ObjectId>17608</ObjectId>
       <StateNumber>1043</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <column id="279" parent="275" name="id">
+    <column id="281" parent="276" name="id">
       <DefaultExpression>gen_random_uuid()</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -4356,47 +4371,47 @@ AUDITOR</Labels>
       <StoredType>uuid|0s</StoredType>
       <TypeId>2950</TypeId>
     </column>
-    <column id="280" parent="275" name="account_number">
+    <column id="282" parent="276" name="account_number">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1063</StateNumber>
       <StoredType>varchar(30)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="281" parent="275" name="balance">
+    <column id="283" parent="276" name="balance">
       <DefaultExpression>0.00</DefaultExpression>
       <Position>3</Position>
       <StateNumber>1063</StateNumber>
       <StoredType>numeric(15,2 digit)|0s</StoredType>
       <TypeId>1700</TypeId>
     </column>
-    <column id="282" parent="275" name="type">
+    <column id="284" parent="276" name="type">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>1063</StateNumber>
       <StoredType>account_type_enum|0s</StoredType>
       <TypeId>17619</TypeId>
     </column>
-    <column id="283" parent="275" name="isactive">
+    <column id="285" parent="276" name="isactive">
       <DefaultExpression>true</DefaultExpression>
       <Position>5</Position>
       <StateNumber>1063</StateNumber>
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="284" parent="275" name="client_id">
+    <column id="286" parent="276" name="client_id">
       <Position>6</Position>
       <StateNumber>1063</StateNumber>
       <StoredType>uuid|0s</StoredType>
       <TypeId>2950</TypeId>
     </column>
-    <column id="285" parent="275" name="created_by">
+    <column id="287" parent="276" name="created_by">
       <Position>7</Position>
       <StateNumber>1063</StateNumber>
       <StoredType>integer|0s</StoredType>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="286" parent="275" name="accounts_client_id_fkey">
+    <foreign-key id="288" parent="276" name="accounts_client_id_fkey">
       <ColNames>client_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17678</ObjectId>
@@ -4405,7 +4420,7 @@ AUDITOR</Labels>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17636</RefTableId>
     </foreign-key>
-    <foreign-key id="287" parent="275" name="accounts_created_by_fkey">
+    <foreign-key id="289" parent="276" name="accounts_created_by_fkey">
       <ColNames>created_by</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17683</ObjectId>
@@ -4413,7 +4428,7 @@ AUDITOR</Labels>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17608</RefTableId>
     </foreign-key>
-    <index id="288" parent="275" name="accounts_pkey">
+    <index id="290" parent="276" name="accounts_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17674</ObjectId>
@@ -4422,7 +4437,7 @@ AUDITOR</Labels>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="289" parent="275" name="accounts_account_number_key">
+    <index id="291" parent="276" name="accounts_account_number_key">
       <ColNames>account_number</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17676</ObjectId>
@@ -4433,20 +4448,20 @@ AUDITOR</Labels>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="290" parent="275" name="accounts_pkey">
+    <key id="292" parent="276" name="accounts_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17675</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1063</StateNumber>
       <UnderlyingIndexId>17674</UnderlyingIndexId>
     </key>
-    <key id="291" parent="275" name="accounts_account_number_key">
+    <key id="293" parent="276" name="accounts_account_number_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17677</ObjectId>
       <StateNumber>1063</StateNumber>
       <UnderlyingIndexId>17676</UnderlyingIndexId>
     </key>
-    <column id="292" parent="276" name="id">
+    <column id="294" parent="277" name="id">
       <DefaultExpression>gen_random_uuid()</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -4454,52 +4469,52 @@ AUDITOR</Labels>
       <StoredType>uuid|0s</StoredType>
       <TypeId>2950</TypeId>
     </column>
-    <column id="293" parent="276" name="first_name">
+    <column id="295" parent="277" name="first_name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1050</StateNumber>
       <StoredType>varchar(225)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="294" parent="276" name="last_name">
+    <column id="296" parent="277" name="last_name">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1050</StateNumber>
       <StoredType>varchar(225)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="295" parent="276" name="cin">
+    <column id="297" parent="277" name="cin">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>1052</StateNumber>
       <StoredType>varchar(50)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="296" parent="276" name="phone_number">
+    <column id="298" parent="277" name="phone_number">
       <Position>5</Position>
       <StateNumber>1052</StateNumber>
       <StoredType>varchar(50)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="297" parent="276" name="address">
+    <column id="299" parent="277" name="address">
       <Position>6</Position>
       <StateNumber>1050</StateNumber>
       <StoredType>text|0s</StoredType>
       <TypeId>25</TypeId>
     </column>
-    <column id="298" parent="276" name="email">
+    <column id="300" parent="277" name="email">
       <Position>7</Position>
       <StateNumber>1050</StateNumber>
       <StoredType>varchar(225)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="299" parent="276" name="created_by">
+    <column id="301" parent="277" name="created_by">
       <Position>8</Position>
       <StateNumber>1050</StateNumber>
       <StoredType>integer|0s</StoredType>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="300" parent="276" name="clients_created_by_fkey">
+    <foreign-key id="302" parent="277" name="clients_created_by_fkey">
       <ColNames>created_by</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17647</ObjectId>
@@ -4507,7 +4522,7 @@ AUDITOR</Labels>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17608</RefTableId>
     </foreign-key>
-    <index id="301" parent="276" name="clients_pkey">
+    <index id="303" parent="277" name="clients_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17641</ObjectId>
@@ -4516,7 +4531,7 @@ AUDITOR</Labels>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="302" parent="276" name="clients_cin_key">
+    <index id="304" parent="277" name="clients_cin_key">
       <ColNames>cin</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17652</ObjectId>
@@ -4527,7 +4542,7 @@ AUDITOR</Labels>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <index id="303" parent="276" name="clients_email_key">
+    <index id="305" parent="277" name="clients_email_key">
       <ColNames>email</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17645</ObjectId>
@@ -4538,26 +4553,125 @@ AUDITOR</Labels>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="304" parent="276" name="clients_pkey">
+    <key id="306" parent="277" name="clients_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17642</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1050</StateNumber>
       <UnderlyingIndexId>17641</UnderlyingIndexId>
     </key>
-    <key id="305" parent="276" name="clients_cin_key">
+    <key id="307" parent="277" name="clients_cin_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17653</ObjectId>
       <StateNumber>1052</StateNumber>
       <UnderlyingIndexId>17652</UnderlyingIndexId>
     </key>
-    <key id="306" parent="276" name="clients_email_key">
+    <key id="308" parent="277" name="clients_email_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17646</ObjectId>
       <StateNumber>1050</StateNumber>
       <UnderlyingIndexId>17645</UnderlyingIndexId>
     </key>
-    <column id="307" parent="277" name="id">
+    <check id="309" parent="278" name="credits_amount_check">
+      <ColNames>amount</ColNames>
+      <ObjectId>17747</ObjectId>
+      <Predicate>amount &gt; (0)::numeric</Predicate>
+      <StateNumber>1107</StateNumber>
+    </check>
+    <check id="310" parent="278" name="credits_duration_months_check">
+      <ColNames>duration_months</ColNames>
+      <ObjectId>17749</ObjectId>
+      <Predicate>duration_months &gt; 0</Predicate>
+      <StateNumber>1107</StateNumber>
+    </check>
+    <check id="311" parent="278" name="credits_interest_rate_check">
+      <ColNames>interest_rate</ColNames>
+      <ObjectId>17748</ObjectId>
+      <Predicate>interest_rate &gt; (0)::numeric</Predicate>
+      <StateNumber>1107</StateNumber>
+    </check>
+    <column id="312" parent="278" name="id">
+      <DefaultExpression>gen_random_uuid()</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1107</StateNumber>
+      <StoredType>uuid|0s</StoredType>
+      <TypeId>2950</TypeId>
+    </column>
+    <column id="313" parent="278" name="account_id">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1107</StateNumber>
+      <StoredType>varchar(30)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="314" parent="278" name="amount">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1107</StateNumber>
+      <StoredType>numeric(18,2 digit)|0s</StoredType>
+      <TypeId>1700</TypeId>
+    </column>
+    <column id="315" parent="278" name="interest_rate">
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1107</StateNumber>
+      <StoredType>numeric(5,2 digit)|0s</StoredType>
+      <TypeId>1700</TypeId>
+    </column>
+    <column id="316" parent="278" name="duration_months">
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>1107</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="317" parent="278" name="status">
+      <DefaultExpression>&apos;PENDING&apos;::credit_status</DefaultExpression>
+      <Position>6</Position>
+      <StateNumber>1107</StateNumber>
+      <StoredType>credit_status|0s</StoredType>
+      <TypeId>17731</TypeId>
+    </column>
+    <column id="318" parent="278" name="created_at">
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <Position>7</Position>
+      <StateNumber>1107</StateNumber>
+      <StoredType>timestamp|0s</StoredType>
+      <TypeId>1114</TypeId>
+    </column>
+    <foreign-key id="319" parent="278" name="credits_account_id_fkey">
+      <ColNames>account_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17752</ObjectId>
+      <OnDelete>cascade</OnDelete>
+      <StateNumber>1107</StateNumber>
+      <RefKeyColPositions>2</RefKeyColPositions>
+      <RefTableId>17668</RefTableId>
+    </foreign-key>
+    <index id="320" parent="278" name="credits_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17750</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1107</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="321" parent="278" name="credits_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17751</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1107</StateNumber>
+      <UnderlyingIndexId>17750</UnderlyingIndexId>
+    </key>
+    <check id="322" parent="279" name="transactions_status_check">
+      <ColNames>status</ColNames>
+      <ObjectId>17729</ObjectId>
+      <Predicate>(status)::text = ANY ((ARRAY[&apos;PENDING&apos;::character varying, &apos;COMPLETED&apos;::character varying, &apos;FAILED&apos;::character varying, &apos;CANCELLED&apos;::character varying])::text[])</Predicate>
+      <StateNumber>1084</StateNumber>
+    </check>
+    <column id="323" parent="279" name="id">
       <DefaultExpression>gen_random_uuid()</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -4565,40 +4679,48 @@ AUDITOR</Labels>
       <StoredType>uuid|0s</StoredType>
       <TypeId>2950</TypeId>
     </column>
-    <column id="308" parent="277" name="amount">
+    <column id="324" parent="279" name="amount">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1073</StateNumber>
       <StoredType>numeric(15,2 digit)|0s</StoredType>
       <TypeId>1700</TypeId>
     </column>
-    <column id="309" parent="277" name="type">
+    <column id="325" parent="279" name="type">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1073</StateNumber>
       <StoredType>transaction_type_enum|0s</StoredType>
       <TypeId>17696</TypeId>
     </column>
-    <column id="310" parent="277" name="timestamp">
+    <column id="326" parent="279" name="timestamp">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>4</Position>
       <StateNumber>1073</StateNumber>
       <StoredType>timestamp|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <column id="311" parent="277" name="sender_account_id">
+    <column id="327" parent="279" name="sender_account_id">
       <Position>5</Position>
       <StateNumber>1073</StateNumber>
       <StoredType>uuid|0s</StoredType>
       <TypeId>2950</TypeId>
     </column>
-    <column id="312" parent="277" name="receiver_account_id">
+    <column id="328" parent="279" name="receiver_account_id">
       <Position>6</Position>
       <StateNumber>1073</StateNumber>
       <StoredType>uuid|0s</StoredType>
       <TypeId>2950</TypeId>
     </column>
-    <foreign-key id="313" parent="277" name="transactions_sender_account_id_fkey">
+    <column id="329" parent="279" name="status">
+      <DefaultExpression>&apos;COMPLETED&apos;::character varying</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+      <StateNumber>1084</StateNumber>
+      <StoredType>varchar(20)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <foreign-key id="330" parent="279" name="transactions_sender_account_id_fkey">
       <ColNames>sender_account_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17718</ObjectId>
@@ -4606,7 +4728,7 @@ AUDITOR</Labels>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17668</RefTableId>
     </foreign-key>
-    <foreign-key id="314" parent="277" name="transactions_receiver_account_id_fkey">
+    <foreign-key id="331" parent="279" name="transactions_receiver_account_id_fkey">
       <ColNames>receiver_account_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17723</ObjectId>
@@ -4614,7 +4736,7 @@ AUDITOR</Labels>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17668</RefTableId>
     </foreign-key>
-    <index id="315" parent="277" name="transactions_pkey">
+    <index id="332" parent="279" name="transactions_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17716</ObjectId>
@@ -4623,14 +4745,14 @@ AUDITOR</Labels>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="316" parent="277" name="transactions_pkey">
+    <key id="333" parent="279" name="transactions_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17717</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1073</StateNumber>
       <UnderlyingIndexId>17716</UnderlyingIndexId>
     </key>
-    <column id="317" parent="278" name="id">
+    <column id="334" parent="280" name="id">
       <DefaultExpression>nextval(&apos;users_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -4639,34 +4761,34 @@ AUDITOR</Labels>
       <SequenceId>17607</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="318" parent="278" name="name">
+    <column id="335" parent="280" name="name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1043</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="319" parent="278" name="email">
+    <column id="336" parent="280" name="email">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1043</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="320" parent="278" name="password">
+    <column id="337" parent="280" name="password">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>1043</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="321" parent="278" name="role">
+    <column id="338" parent="280" name="role">
       <Position>5</Position>
       <StateNumber>1043</StateNumber>
       <StoredType>user_role|0s</StoredType>
       <TypeId>17598</TypeId>
     </column>
-    <index id="322" parent="278" name="users_pkey">
+    <index id="339" parent="280" name="users_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17614</ObjectId>
@@ -4675,7 +4797,7 @@ AUDITOR</Labels>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="323" parent="278" name="users_email_key">
+    <index id="340" parent="280" name="users_email_key">
       <ColNames>email</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17616</ObjectId>
@@ -4686,14 +4808,14 @@ AUDITOR</Labels>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="324" parent="278" name="users_pkey">
+    <key id="341" parent="280" name="users_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17615</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1043</StateNumber>
       <UnderlyingIndexId>17614</UnderlyingIndexId>
     </key>
-    <key id="325" parent="278" name="users_email_key">
+    <key id="342" parent="280" name="users_email_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17617</ObjectId>
       <StateNumber>1043</StateNumber>

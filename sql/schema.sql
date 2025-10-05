@@ -67,3 +67,20 @@ create table transactions
     sender_account_id   UUID REFERENCES accounts (id),
     receiver_account_id UUID REFERENCES accounts (id)
 )
+ALTER TABLE transactions
+    ADD COLUMN status VARCHAR(20) DEFAULT 'COMPLETED'
+        CHECK (status IN ('PENDING', 'COMPLETED', 'FAILED', 'CANCELLED'));
+
+-- credit table
+CREATE TYPE credit_status AS ENUM ('PENDING', 'ACTIVE', 'LATE', 'CLOSED', 'REJECTED');
+
+CREATE TABLE credits
+(
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    account_id      VARCHAR(30)    NOT NULL REFERENCES accounts (account_number) ON DELETE CASCADE,
+    amount          NUMERIC(18, 2) NOT NULL CHECK (amount > 0),
+    interest_rate   NUMERIC(5, 2)  NOT NULL CHECK (interest_rate > 0),
+    duration_months INT            NOT NULL CHECK (duration_months > 0),
+    status          credit_status    DEFAULT 'PENDING',
+    created_at      TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
+);
