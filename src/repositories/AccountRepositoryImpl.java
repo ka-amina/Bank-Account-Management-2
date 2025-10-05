@@ -123,7 +123,7 @@ public class AccountRepositoryImpl implements AccoutRepository {
 
     @Override
     public Optional<Account> findByNumber(String accountNumber) {
-        String query = "SELECT * FROM accounts WHERE account_number = ?";
+        String query = "select * from accounts where account_number = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, accountNumber);
             ResultSet rs = statement.executeQuery();
@@ -146,7 +146,7 @@ public class AccountRepositoryImpl implements AccoutRepository {
 
     @Override
     public Optional<Account> findById(UUID accountId) {
-        String query = "SELECT * FROM accounts WHERE id = ?";
+        String query = "select * from accounts where id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setObject(1, accountId);
             ResultSet rs = statement.executeQuery();
@@ -169,7 +169,7 @@ public class AccountRepositoryImpl implements AccoutRepository {
 
     @Override
     public List<Account> findByClientId(UUID clientId) {
-        String query = "SELECT * FROM accounts WHERE client_id = ? AND isActive = true";
+        String query = "select * from accounts where client_id = ? and isActive = true";
         List<Account> accounts = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setObject(1, clientId);

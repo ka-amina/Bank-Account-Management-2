@@ -18,6 +18,7 @@ public class BankManagementMenu {
     private final TransactionController transactionController = new TransactionController();
     private final CreditController creditController = new CreditController();
     private final ClientService clientService = new ClientService();
+    private final FeeRuleController feeRuleController = new FeeRuleController();
 
     public void showMenu(User user) {
         int choice;
@@ -43,8 +44,11 @@ public class BankManagementMenu {
             case ADMIN:
                 System.out.println("=== Logged in as Admin ===");
                 System.out.println("=       1. View all credits                                        =");
-                System.out.println("=       2. Update profile                                          =");
-                System.out.println("=       3. Change password                                         =");
+                System.out.println("=       2. List fee rules                                          =");
+                System.out.println("=       3. Add fee rule                                            =");
+                System.out.println("=       4. Toggle fee rule                                         =");
+                System.out.println("=       5. Update profile                                          =");
+                System.out.println("=       6. Change password                                         =");
                 System.out.println("=       0. Logout                                                  =");
                 break;
             case MANAGER:
@@ -55,8 +59,11 @@ public class BankManagementMenu {
                 System.out.println("=       4. Approve credit                                          =");
                 System.out.println("=       5. Reject credit                                           =");
                 System.out.println("=       6. Transaction history                                     =");
-                System.out.println("=       7. Update profile                                          =");
-                System.out.println("=       8. Change password                                         =");
+                System.out.println("=       7. List fee rules                                          =");
+                System.out.println("=       8. Add fee rule                                            =");
+                System.out.println("=       9. Toggle fee rule                                         =");
+                System.out.println("=       10. Update profile                                         =");
+                System.out.println("=       11. Change password                                        =");
                 System.out.println("=       0. Logout                                                  =");
                 break;
             case TELLER:
@@ -118,9 +125,18 @@ public class BankManagementMenu {
                 creditController.showAllCredits();
                 break;
             case 2:
-                profileController.updateProfile(user);
+                feeRuleController.listRules();
                 break;
             case 3:
+                feeRuleController.addRule();
+                break;
+            case 4:
+                feeRuleController.toggleRule();
+                break;
+            case 5:
+                profileController.updateProfile(user);
+                break;
+            case 6:
                 passwordController.changePassword(user);
                 break;
             default:
@@ -150,9 +166,18 @@ public class BankManagementMenu {
                 transactionController.showTransactionHistory();
                 break;
             case 7:
-                profileController.updateProfile(user);
+                feeRuleController.listRules();
                 break;
             case 8:
+                feeRuleController.addRule();
+                break;
+            case 9:
+                feeRuleController.toggleRule();
+                break;
+            case 10:
+                profileController.updateProfile(user);
+                break;
+            case 11:
                 passwordController.changePassword(user);
                 break;
             default:

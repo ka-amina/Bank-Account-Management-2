@@ -84,3 +84,31 @@ CREATE TABLE credits
     status          credit_status    DEFAULT 'PENDING',
     created_at      TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
 );
+
+-- create  fee-rule table
+CREATE TABLE  fee_rule
+(
+    id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    modal         VARCHAR(20) NOT NULL CHECK (modal IN ('FIX','PERCENT')),
+    rule_value    NUMERIC(18,4) NOT NULL CHECK (rule_value >= 0),
+    operation_type VARCHAR(30) NOT NULL
+    CHECK (operation_type IN ('TRANSFER_EXTERNAL','TRANSFER_INTERNAL',
+           'DEPOSIT','WITHDRAW','CREDIT')),
+    is_active     BOOLEAN DEFAULT TRUE
+    );
+
+
+INSERT INTO fee_rules (modal, rule_value, operation_type, is_active)
+VALUES ('FIX', 5.00, 'TRANSFER_EXTERNAL', true);
+
+INSERT INTO fee_rules (modal, rule_value, operation_type, is_active)
+VALUES ('PERCENT', 1.00, 'WITHDRAW', true);
+
+INSERT INTO fee_rules (modal, rule_value, operation_type, is_active)
+VALUES ('PERCENT', 0.50, 'TRANSFER_IN', true);
+
+INSERT INTO fee_rules (modal, rule_value, operation_type, is_active)
+VALUES ('FIX', 0.00, 'DEPOSIT', false);
+
+INSERT INTO fee_rules (modal, rule_value, operation_type, is_active)
+VALUES ('PERCENT', 2.00, 'CREDIT', true);

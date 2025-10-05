@@ -29,7 +29,7 @@ public class DatabaseConfig {
             connection = DriverManager.getConnection(
                     "jdbc:postgresql://" + SERVER_NAME + ":" + PORT_NUMBER + "/" + DB_NAME, USERNAME, PASSWORD
             );
-            System.out.println("worked");
+//            System.out.println("worked");
         }
         return connection;
     }

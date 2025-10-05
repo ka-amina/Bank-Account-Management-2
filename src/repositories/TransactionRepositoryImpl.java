@@ -24,10 +24,11 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public boolean add(Transaction transaction) {
-        String query = " insert into transactions(amount, type, sender_account_id, receiver_account_id) values (?, ?, ?, ?) RETURNING id ";
+        String query = "INSERT INTO transactions(amount, type, sender_account_id, receiver_account_id, status) " +
+                "VALUES (?, ?, ?, ?, ?) RETURNING id";
         try (PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setBigDecimal(1, transaction.getAmount());
-            statement.setObject(2, transaction.getType().name(),Types.OTHER);
+            statement.setObject(2, transaction.getType().name(), Types.OTHER);
             statement.setObject(3, transaction.getSenderAccountId());
             statement.setObject(4, transaction.getReceiverAccountId());
             statement.setString(5, transaction.getStatus().name());

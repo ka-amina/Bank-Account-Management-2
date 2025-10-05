@@ -16,6 +16,7 @@ import java.util.UUID;
 public class AccountService {
     private final AccoutRepository accoutRepository = new AccountRepositoryImpl();
     private final TransactionService transactionService = new TransactionService();
+    private final FeeRuleService feeRuleService = new FeeRuleService();
 
     public Account createAccount(String accountNumber, AccountType type, UUID clientId, int createdBy) {
         Account account = new Account(accountNumber, type, clientId, createdBy);
@@ -49,6 +50,7 @@ public class AccountService {
 
         UUID accountId = accoutRepository.findIdByNumber(accountNumber).orElse(null);
         Transaction tx = new Transaction(amount, TransactionType.WITHDRAW, accountId, null);
+        applyFeeIfAny(accountNumber, TransactionType.WITHDRAW, amount);
         return transactionService.add(tx);
     }
 
@@ -91,26 +93,36 @@ public class AccountService {
         transactionService.add(txOut);
 
         Transaction txIn = new Transaction(amount, TransactionType.TRANSFER_IN,
-                fromAcc.get().getAccountId(), toAcc.get().getAccountId());
+                toAcc.get().getAccountId(), fromAcc.get().getAccountId());
         transactionService.add(txIn);
 
         return true;
     }
 
-    public boolean transferExternal(String fromAccountNumber, String toAccountNumber, BigDecimal amount) {
+    public boolean transferExternal(String fromAccountNumber,
+                                    String toAccountNumber,
+                                    BigDecimal amount) {
+
         Optional<Account> fromAcc = findByNumber(fromAccountNumber);
         Optional<Account> toAcc = findByNumber(toAccountNumber);
 
-        if (!fromAcc.isPresent() || !toAcc.isPresent()) {
-            return false;
-        }
+        if (!fromAcc.isPresent() || !toAcc.isPresent()) return false;
+        if (!fromAcc.get().isActive() || !toAcc.get().isActive()) return false;
 
-        if (!fromAcc.get().isActive() || !toAcc.get().isActive()) {
-            return false;
-        }
+        BigDecimal fee = feeRuleService.computeFee(TransactionType.TRANSFER_EXTERNAL, amount);
+        BigDecimal total = amount.add(fee);
 
-        if (fromAcc.get().getBalance().compareTo(amount) < 0) {
-            return false;
+        if (fromAcc.get().getBalance().compareTo(total) < 0) return false;
+
+        if (fee.compareTo(BigDecimal.ZERO) > 0) {
+            accoutRepository.withdraw(fromAccountNumber, fee);
+            Transaction feeTx = new Transaction(fee, TransactionType.FEE,
+                    fromAcc.get().getAccountId(), null);
+            transactionService.add(feeTx);
+
+            Transaction incomeTx = new Transaction(fee, TransactionType.FEEINCOME,
+                    null, null);
+            transactionService.add(incomeTx);
         }
 
         Transaction txPending = new Transaction(amount, TransactionType.TRANSFER_EXTERNAL,
@@ -134,19 +146,56 @@ public class AccountService {
             return false;
         }
 
-        boolean withdrawn = accoutRepository.withdraw(fromAcc.get().getAccountNumber(), tx.getAmount());
+        BigDecimal fee =
+                feeRuleService.computeFee(
+                        TransactionType.TRANSFER_EXTERNAL,
+                        tx.getAmount());
+        BigDecimal total = tx.getAmount().add(fee);
+
+        if (fromAcc.get().getBalance().compareTo(total) < 0) {
+            transactionService.updateStatus(transactionId, TransactionStatus.FAILED);
+            return false;
+        }
+
+        boolean withdrawn = accoutRepository
+                .withdraw(fromAcc.get().getAccountNumber(), total);
         if (!withdrawn) {
             transactionService.updateStatus(transactionId, TransactionStatus.FAILED);
             return false;
         }
 
-        boolean deposited = accoutRepository.deposit(toAcc.get().getAccountNumber(), tx.getAmount());
+        boolean deposited = accoutRepository
+                .deposit(toAcc.get().getAccountNumber(), tx.getAmount());
         if (!deposited) {
-            accoutRepository.deposit(fromAcc.get().getAccountNumber(), tx.getAmount());
+            accoutRepository.deposit(fromAcc.get().getAccountNumber(), total);
             transactionService.updateStatus(transactionId, TransactionStatus.FAILED);
             return false;
         }
 
+        if (fee.compareTo(BigDecimal.ZERO) > 0) {
+            Transaction feeIncome = new Transaction(fee,
+                    TransactionType.FEEINCOME,
+                    null,
+                    null);
+            transactionService.add(feeIncome);
+        }
+
         return transactionService.updateStatus(transactionId, TransactionStatus.COMPLETED);
+    }
+
+    private void applyFeeIfAny(String accountNumber,
+                               TransactionType type,
+                               BigDecimal baseAmount) {
+        FeeRuleService feeService = new FeeRuleService();
+        BigDecimal fee = feeService.computeFee(type, baseAmount);
+        if (fee.compareTo(BigDecimal.ZERO) <= 0) return;
+
+        accoutRepository.withdraw(accountNumber, fee);
+        Transaction txFee = new Transaction(fee, TransactionType.FEE,
+                accoutRepository.findIdByNumber(accountNumber).orElse(null), null);
+        transactionService.add(txFee);
+        Transaction txIncome = new Transaction(fee, TransactionType.FEEINCOME,
+                null, null);
+        transactionService.add(txIncome);
     }
 }
